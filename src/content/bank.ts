@@ -3,8 +3,9 @@
 
 import type { BankPack, Item } from './types'
 import seedV1 from '@bank/seed-v1.json'
+import gen20260718 from '@bank/gen-2026-07-18-g1.json'
 
-const PACKS: BankPack[] = [seedV1 as BankPack]
+const PACKS: BankPack[] = [seedV1 as BankPack, gen20260718 as BankPack]
 
 export function loadBank(): Item[] {
   return PACKS.flatMap((p) => p.items)

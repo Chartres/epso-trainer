@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.2.0 — 2026-07-18
+
+M3 (first generation run):
+
+- 206 new machine-generated, round-trip-verified items (`gen-2026-07-18-g1` pack) across all
+  20 seed domains — bank now 234 items. Regulatory items grounded per-article in the actual
+  EUR-Lex texts; every item cites its source.
+- Authoring pipeline: `tools/corpus.mjs` (EUR-Lex fetch + per-article chunking),
+  workflow fan-out (sonnet generators → answer-blind round-trip verification by an
+  independent sonnet gate + haiku difficulty calibration; 2/208 dropped),
+  `tools/dedupe.mjs` (local MiniLM embedding near-dup gate via transformers.js).
+- `provenance.verification` records the verification level; generated items ship
+  `reviewed: false` (practice modes only) pending human spot-check for Mock eligibility.
+- Touchless Cloudflare Pages deploy in CI: main → epso.dravec.org, claude/** → preview URL.
+
 ## 0.1.0 — 2026-07-18
 
 M0–M2 of the PRD:

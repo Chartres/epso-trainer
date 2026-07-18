@@ -17,7 +17,12 @@ beforeEach(async () => {
   await db.open()
 })
 
-const verbalCount = loadBank().filter((i) => i.type === 'reasoning_verbal').length
+// Focus sessions cap at 15 items (App.startFocus); the bank has more verbal
+// items than that, so the drilled count is the session size.
+const verbalCount = Math.min(
+  15,
+  loadBank().filter((i) => i.type === 'reasoning_verbal').length,
+)
 
 async function answerCurrentItem(user: ReturnType<typeof userEvent.setup>) {
   // Click the first option button (A), whatever the item.
