@@ -7,7 +7,7 @@ import { domainGroup } from '@/content/types'
 import { newSchedulerState, rate, isMastered, retrievability, type SelfRating } from '@/engine/fsrs'
 import { eloUpdate, kForAnswerCount } from '@/engine/elo'
 import type { ItemProgress } from '@/engine/session'
-import { db as defaultDb, type TrainerDB, type ReviewRow } from './db'
+import { db as defaultDb, type TrainerDB, type ReviewRow, type ReviewFlagRow } from './db'
 
 export const DEFAULT_DAILY_GOAL = 40
 const DEFAULT_THETA = 0
@@ -205,15 +205,38 @@ export async function streakInfo(now: Date, db: TrainerDB = defaultDb): Promise<
   return { todayAnswered, goal, streak }
 }
 
+/**
+ * Record (or toggle off) a spot-check verdict on an item. Approvals make an
+ * unreviewed item Mock-eligible on this device immediately; rejections pull it
+ * from all sessions. `tools/apply-review.mjs` applies exported verdicts to the
+ * committed packs, closing the loop in git.
+ */
+export async function setReviewFlag(
+  itemId: string,
+  verdict: 'approved' | 'rejected' | null,
+  now: Date,
+  db: TrainerDB = defaultDb,
+): Promise<void> {
+  if (verdict === null) await db.reviewFlags.delete(itemId)
+  else await db.reviewFlags.put({ itemId, verdict, at: now.toISOString() })
+}
+
+export async function loadReviewFlags(db: TrainerDB = defaultDb): Promise<Map<string, 'approved' | 'rejected'>> {
+  const rows = await db.reviewFlags.toArray()
+  return new Map(rows.map((r) => [r.itemId, r.verdict]))
+}
+
 /** Full telemetry export (PRD §6.4) — feeds the authoring loop. */
 export async function exportTelemetry(db: TrainerDB = defaultDb): Promise<{
   exportedAt: string
   weakTags: WeakTag[]
+  reviewFlags: ReviewFlagRow[]
   reviews: ReviewRow[]
 }> {
   return {
     exportedAt: new Date().toISOString(),
     weakTags: await weakTags(3, db),
+    reviewFlags: await db.reviewFlags.toArray(),
     reviews: await db.reviews.toArray(),
   }
 }

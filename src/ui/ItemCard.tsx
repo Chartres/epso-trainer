@@ -23,6 +23,10 @@ interface Props {
   /** Mock mode: defer rationale to the summary, no self-rating step. */
   deferFeedback?: boolean
   onResult: (r: ItemResult) => void
+  /** Current spot-check verdict for this item (unreviewed items only). */
+  reviewVerdict?: 'approved' | 'rejected' | null
+  /** Record a spot-check verdict; null clears it. */
+  onReview?: (verdict: 'approved' | 'rejected' | null) => void
 }
 
 const KEY_TO_OPTION: Record<string, OptionKey> = {
@@ -36,7 +40,7 @@ const KEY_TO_OPTION: Record<string, OptionKey> = {
   d: 'D',
 }
 
-export function ItemCard({ item, index, total, deferFeedback, onResult }: Props) {
+export function ItemCard({ item, index, total, deferFeedback, onResult, reviewVerdict, onReview }: Props) {
   const [chosen, setChosen] = useState<OptionKey | null>(null)
   const [startedAt, setStartedAt] = useState(() => Date.now())
 
@@ -151,6 +155,31 @@ export function ItemCard({ item, index, total, deferFeedback, onResult }: Props)
                   item.source.title
                 )}
               </p>
+            )}
+            {!item.provenance.reviewed && onReview && (
+              <div className="mt-3 flex items-center gap-2 rounded-lg bg-slate-50 px-3 py-2">
+                <span className="text-xs text-muted">Spot-check:</span>
+                <button
+                  type="button"
+                  onClick={() => onReview(reviewVerdict === 'approved' ? null : 'approved')}
+                  aria-pressed={reviewVerdict === 'approved'}
+                  className={`rounded-lg border px-3 py-1.5 text-sm font-medium min-h-[44px] ${
+                    reviewVerdict === 'approved' ? 'border-pass bg-pass-soft text-pass' : 'border-slate-300'
+                  }`}
+                >
+                  ✓ Approve for Mock
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onReview(reviewVerdict === 'rejected' ? null : 'rejected')}
+                  aria-pressed={reviewVerdict === 'rejected'}
+                  className={`rounded-lg border px-3 py-1.5 text-sm font-medium min-h-[44px] ${
+                    reviewVerdict === 'rejected' ? 'border-fail bg-fail-soft text-fail' : 'border-slate-300'
+                  }`}
+                >
+                  ✗ Flag as wrong
+                </button>
+              </div>
             )}
             <div className="mt-4 flex flex-wrap gap-2">
               {correct ? (

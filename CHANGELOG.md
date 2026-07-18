@@ -14,6 +14,10 @@ M3 (first generation run):
 - `provenance.verification` records the verification level; generated items ship
   `reviewed: false` (practice modes only) pending human spot-check for Mock eligibility.
 - Touchless Cloudflare Pages deploy in CI: main → epso.dravec.org, claude/** → preview URL.
+- In-app spot-check: Approve-for-Mock / Flag-as-wrong buttons on the answer screen for
+  unreviewed items. Verdicts persist locally (approved → Mock-eligible on the device,
+  flagged → excluded everywhere), ride the telemetry export, and
+  `tools/apply-review.mjs` writes them back into the committed packs.
 
 ## 0.1.0 — 2026-07-18
 

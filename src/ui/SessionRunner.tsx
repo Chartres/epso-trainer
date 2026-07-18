@@ -5,7 +5,7 @@
 import { useCallback, useState } from 'react'
 import type { Item } from '@/content/types'
 import { domainLabel } from '@/content/types'
-import { recordAnswer } from '@/db/store'
+import { recordAnswer, setReviewFlag } from '@/db/store'
 import { ItemCard, type ItemResult } from './ItemCard'
 
 interface Props {
@@ -13,11 +13,16 @@ interface Props {
   title: string
   /** Mock mode: feedback deferred to the summary. */
   mock?: boolean
+  /** Spot-check verdicts loaded at session start (updated locally as you review). */
+  reviewFlags?: Map<string, 'approved' | 'rejected'>
   onDone: () => void
 }
 
-export function SessionRunner({ items, title, mock, onDone }: Props) {
+export function SessionRunner({ items, title, mock, reviewFlags, onDone }: Props) {
   const [results, setResults] = useState<ItemResult[]>([])
+  const [verdicts, setVerdicts] = useState<Map<string, 'approved' | 'rejected'>>(
+    () => new Map(reviewFlags),
+  )
   const idx = results.length
   const finished = idx >= items.length
 
@@ -27,6 +32,16 @@ export function SessionRunner({ items, title, mock, onDone }: Props) {
       new Date(),
     )
     setResults((prev) => [...prev, r])
+  }, [])
+
+  const handleReview = useCallback((itemId: string, verdict: 'approved' | 'rejected' | null) => {
+    void setReviewFlag(itemId, verdict, new Date())
+    setVerdicts((prev) => {
+      const next = new Map(prev)
+      if (verdict === null) next.delete(itemId)
+      else next.set(itemId, verdict)
+      return next
+    })
   }, [])
 
   if (items.length === 0) {
@@ -50,6 +65,8 @@ export function SessionRunner({ items, title, mock, onDone }: Props) {
           total={items.length}
           deferFeedback={mock}
           onResult={handleResult}
+          reviewVerdict={verdicts.get(items[idx].id) ?? null}
+          onReview={(v) => handleReview(items[idx].id, v)}
         />
       </div>
     )

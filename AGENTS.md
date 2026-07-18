@@ -68,8 +68,11 @@ Block only on these. Run `scripts/ci-local.sh` before every push — green-local
    `verification: round-trip-2x | round-trip-sonnet`.
 4. Gates: `npm run validate-data` (schema, one-correct, Jaccard dupes) and
    `node tools/dedupe.mjs` (local MiniLM embedding near-dups via transformers.js — no API).
-5. Human spot-check → flip `reviewed: true` (gates Mock mode) → commit the pack, list it in
-   `src/content/bank.ts`.
+5. Human spot-check happens IN THE APP: unreviewed items show Approve-for-Mock / Flag-as-wrong
+   on the answer screen. Verdicts persist in Dexie (approved → Mock-eligible on that device,
+   flagged → excluded everywhere) and ride the Progress telemetry export;
+   `node tools/apply-review.mjs <export.json>` writes them into the committed packs
+   (approved → `reviewed: true`, flagged → removed). Then validate, test, commit.
 Regenerate icons after changing `public/favicon.svg`: `node scripts/gen-icons.mjs`.
 
 ## Milestones (docs/PRD.md §10)

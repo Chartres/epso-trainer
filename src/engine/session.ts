@@ -31,6 +31,8 @@ export interface SessionConfig {
   seed?: number
   /** Mock mode: only reviewed items, no due/new logic — a flat exam draw. */
   examDraw?: boolean
+  /** Local spot-check verdicts: approved ⇒ Mock-eligible, rejected ⇒ excluded everywhere. */
+  reviewFlags?: Map<string, 'approved' | 'rejected'>
 }
 
 const PROCEDURAL_TYPES: ItemType[] = ['reasoning_numerical', 'reasoning_abstract']
@@ -70,10 +72,13 @@ export function buildSession(
   progress: Map<string, ItemProgress>,
   cfg: SessionConfig,
 ): Item[] {
-  const pool = bank.filter((i) => i.type !== 'eufte_scenario' && matches(i, cfg))
+  const flags = cfg.reviewFlags
+  const pool = bank.filter(
+    (i) => i.type !== 'eufte_scenario' && matches(i, cfg) && flags?.get(i.id) !== 'rejected',
+  )
 
   if (cfg.examDraw) {
-    const reviewed = pool.filter((i) => i.provenance.reviewed)
+    const reviewed = pool.filter((i) => i.provenance.reviewed || flags?.get(i.id) === 'approved')
     const rng = mulberry32(cfg.seed ?? 1)
     // Seeded Fisher–Yates over the reviewed pool.
     const drawn = [...reviewed]

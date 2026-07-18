@@ -9,6 +9,7 @@ import {
   domainStats,
   exportTelemetry,
   getRetention,
+  loadReviewFlags,
   setRetention,
   streakInfo,
   weakTags,
@@ -22,6 +23,7 @@ export function ProgressScreen() {
   const [weak, setWeak] = useState<WeakTag[]>([])
   const [info, setInfo] = useState<StreakInfo | null>(null)
   const [retention, setRetentionState] = useState(0.9)
+  const [flags, setFlags] = useState<Map<string, 'approved' | 'rejected'>>(new Map())
 
   useEffect(() => {
     const now = new Date()
@@ -29,7 +31,12 @@ export function ProgressScreen() {
     void weakTags().then(setWeak)
     void streakInfo(now).then(setInfo)
     void getRetention().then(setRetentionState)
+    void loadReviewFlags().then(setFlags)
   }, [])
+
+  const unreviewedTotal = loadBank().filter((i) => !i.provenance.reviewed).length
+  const approved = [...flags.values()].filter((v) => v === 'approved').length
+  const rejected = [...flags.values()].filter((v) => v === 'rejected').length
 
   const changeRetention = (v: number) => {
     setRetentionState(v)
@@ -94,6 +101,22 @@ export function ProgressScreen() {
           </ul>
         </>
       )}
+
+      <h2 className="mt-6 text-sm font-semibold uppercase tracking-wide text-paper/60">
+        Review queue
+      </h2>
+      <div className="mt-2 rounded-xl bg-white p-3 shadow-sm">
+        <p className="text-sm">
+          <span className="font-semibold tabular-nums">{unreviewedTotal - approved - rejected}</span>{' '}
+          generated items awaiting spot-check ·{' '}
+          <span className="tabular-nums text-pass">{approved} approved</span> ·{' '}
+          <span className="tabular-nums text-fail">{rejected} flagged</span>
+        </p>
+        <p className="mt-1 text-xs text-muted">
+          Approve or flag items on the answer screen as you drill. Approved items enter Mock on
+          this device; the telemetry export carries the verdicts back into the committed bank.
+        </p>
+      </div>
 
       <h2 className="mt-6 text-sm font-semibold uppercase tracking-wide text-paper/60">Settings</h2>
       <div className="mt-2 flex items-center justify-between rounded-xl bg-white p-3 shadow-sm">

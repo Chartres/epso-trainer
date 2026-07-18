@@ -5,7 +5,7 @@ import { useCallback, useState } from 'react'
 import type { Item, ItemType } from '@/content/types'
 import { loadBank } from '@/content/bank'
 import { buildSession } from '@/engine/session'
-import { getAnsweredCount, getDailyGoal, getTheta, loadProgress, streakInfo } from '@/db/store'
+import { getAnsweredCount, getDailyGoal, getTheta, loadProgress, loadReviewFlags, streakInfo } from '@/db/store'
 import { SessionRunner } from '@/ui/SessionRunner'
 import { TodayScreen } from '@/ui/screens/TodayScreen'
 import { FocusScreen, type FocusPick } from '@/ui/screens/FocusScreen'
@@ -18,6 +18,7 @@ interface ActiveSession {
   title: string
   items: Item[]
   mock?: boolean
+  reviewFlags: Map<string, 'approved' | 'rejected'>
 }
 
 const TABS: { view: View; label: string }[] = [
@@ -41,10 +42,11 @@ export default function App() {
       mock?: boolean
     }) => {
       const now = new Date()
-      const [progress, theta, answeredCount] = await Promise.all([
+      const [progress, theta, answeredCount, reviewFlags] = await Promise.all([
         loadProgress(),
         getTheta(),
         getAnsweredCount(),
+        loadReviewFlags(),
       ])
       const items = buildSession(loadBank(), progress, {
         size: opts.size,
@@ -54,9 +56,10 @@ export default function App() {
         types: opts.types,
         domain: opts.domain,
         examDraw: opts.examDraw,
+        reviewFlags,
         seed: (Date.now() % 2 ** 31) | 1,
       })
-      setSession({ title: opts.title, items, mock: opts.mock })
+      setSession({ title: opts.title, items, mock: opts.mock, reviewFlags })
     },
     [],
   )
@@ -95,6 +98,7 @@ export default function App() {
           items={session.items}
           title={session.title}
           mock={session.mock}
+          reviewFlags={session.reviewFlags}
           onDone={() => setSession(null)}
         />
       ) : (

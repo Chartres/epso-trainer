@@ -38,11 +38,19 @@ export interface KvRow {
   value: unknown
 }
 
+/** Pavol's spot-check verdict on a generated item (PRD §6.1 step 5). */
+export interface ReviewFlagRow {
+  itemId: string
+  verdict: 'approved' | 'rejected'
+  at: string
+}
+
 export class TrainerDB extends Dexie {
   progress!: EntityTable<ProgressRow, 'itemId'>
   reviews!: EntityTable<ReviewRow, 'id'>
   days!: EntityTable<DayRow, 'date'>
   kv!: EntityTable<KvRow, 'key'>
+  reviewFlags!: EntityTable<ReviewFlagRow, 'itemId'>
 
   constructor(name = 'epso-trainer') {
     super(name)
@@ -51,6 +59,9 @@ export class TrainerDB extends Dexie {
       reviews: '++id, itemId, domain, at',
       days: 'date',
       kv: 'key',
+    })
+    this.version(2).stores({
+      reviewFlags: 'itemId',
     })
   }
 }
