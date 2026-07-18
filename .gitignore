@@ -1,0 +1,10 @@
+node_modules
+dist
+dev-dist
+coverage
+*.tsbuildinfo
+test-results
+playwright-report
+content/corpus/*
+!content/corpus/README.md
+.DS_Store
