@@ -30,6 +30,8 @@ export interface ItemProvenance {
   generator: 'hand' | 'claude-code' | 'local-model' | 'procedural'
   run: string
   reviewed: boolean
+  /** How the item was machine-verified at authoring time (e.g. "round-trip-2x"). */
+  verification?: string
 }
 
 export interface Item {

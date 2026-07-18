@@ -50,15 +50,26 @@ Block only on these. Run `scripts/ci-local.sh` before every push — green-local
 - `tools/` — authoring pipeline home (M3: RAG generation via Claude Code; validate.mjs is live).
 
 ## Release (the finish line — produces a storefront link)
-- **Web** → Cloudflare Pages at `epso.dravec.org` (build: `npm run build`, output `dist/`).
-  Until the CF Pages project is connected, the CI `test` job is the gate; deploy is manual.
+- **Web** → Cloudflare Pages, wired in `.github/workflows/ci.yml` via repo secrets
+  `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`: every green push deploys —
+  `main` → production (`epso.dravec.org` / `epso-trainer.pages.dev`), `claude/**` → preview URL
+  (printed in the deploy job log). No dashboard steps.
 - PWA: offline-first by construction (bank is bundled; service worker precaches the shell).
 
 ## Content authoring (the flywheel, PRD §6)
-1. Export telemetry from Progress → weak-tag report.
-2. In a Claude Code session: generate new items for weak tags, grounded in the corpus
-   (`content/corpus/`, gitignored), cited, `provenance.reviewed: false`.
-3. `npm run validate-data` → spot-check → flip `reviewed: true` → commit the pack.
+1. Corpus: `node tools/corpus.mjs` fetches the EU legal texts from EUR-Lex and chunks them
+   per article into `content/corpus/chunks/<instrument>/artNNN.txt` (gitignored, regenerable).
+2. Export telemetry from Progress → weak-tag report → weight the next run's cells.
+3. Generation runs as a Claude Code **workflow fan-out**: one generator agent per domain cell,
+   grounded in its chunk files, then **answer-blind round-trip verification** — an independent
+   agent answers each item without seeing the key; mismatch or an ambiguity flag drops the item
+   (recognized technique: round-trip consistency filtering). A second cheap model's blind pass
+   calibrates `difficulty_b` (missed by the small model → harder). Provenance records
+   `verification: round-trip-2x | round-trip-sonnet`.
+4. Gates: `npm run validate-data` (schema, one-correct, Jaccard dupes) and
+   `node tools/dedupe.mjs` (local MiniLM embedding near-dups via transformers.js — no API).
+5. Human spot-check → flip `reviewed: true` (gates Mock mode) → commit the pack, list it in
+   `src/content/bank.ts`.
 Regenerate icons after changing `public/favicon.svg`: `node scripts/gen-icons.mjs`.
 
 ## Milestones (docs/PRD.md §10)
