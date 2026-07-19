@@ -1,5 +1,6 @@
-// App shell: four tabs (Today / Focus / Mock / Progress) in a bottom nav
-// (mobile-ux contract), with an active session taking over the screen.
+// App shell: four tabs (Today / Journey / Focus / Progress) in a bottom nav
+// (mobile-ux contract), with an active session taking over the screen. Mock
+// runs live inside the Journey — each stage card starts its own exam draw.
 
 import { useCallback, useState } from 'react'
 import type { Item, ItemType } from '@/content/types'
@@ -9,10 +10,10 @@ import { getAnsweredCount, getDailyGoal, getTheta, loadProgress, loadReviewFlags
 import { SessionRunner } from '@/ui/SessionRunner'
 import { TodayScreen } from '@/ui/screens/TodayScreen'
 import { FocusScreen, type FocusPick } from '@/ui/screens/FocusScreen'
-import { MockScreen } from '@/ui/screens/MockScreen'
+import { JourneyScreen, type StageAction } from '@/ui/screens/JourneyScreen'
 import { ProgressScreen } from '@/ui/screens/ProgressScreen'
 
-type View = 'today' | 'focus' | 'mock' | 'progress'
+type View = 'today' | 'journey' | 'focus' | 'progress'
 
 interface ActiveSession {
   title: string
@@ -23,8 +24,8 @@ interface ActiveSession {
 
 const TABS: { view: View; label: string }[] = [
   { view: 'today', label: 'Today' },
+  { view: 'journey', label: 'Journey' },
   { view: 'focus', label: 'Focus' },
-  { view: 'mock', label: 'Mock' },
   { view: 'progress', label: 'Progress' },
 ]
 
@@ -76,18 +77,13 @@ export default function App() {
     [start],
   )
 
-  const startMock = useCallback(
-    (kind: 'reasoning' | 'field') =>
-      start({
-        title: kind === 'reasoning' ? 'Reasoning gate mock' : 'Field MCQ mock',
-        size: 20,
-        types:
-          kind === 'reasoning'
-            ? ['reasoning_verbal', 'reasoning_numerical', 'reasoning_abstract']
-            : ['field_mcq'],
-        examDraw: true,
-        mock: true,
-      }),
+  const startStage = useCallback(
+    ({ stage, mode }: StageAction) =>
+      start(
+        mode === 'mock'
+          ? { title: `${stage.name} — mock`, size: 20, types: stage.itemTypes, examDraw: true, mock: true }
+          : { title: `${stage.name} — practice`, size: 15, types: stage.itemTypes },
+      ),
     [start],
   )
 
@@ -104,8 +100,8 @@ export default function App() {
       ) : (
         <>
           {view === 'today' && <TodayScreen onStart={() => void startToday()} />}
+          {view === 'journey' && <JourneyScreen onStart={(a) => void startStage(a)} />}
           {view === 'focus' && <FocusScreen onPick={(p) => void startFocus(p)} />}
-          {view === 'mock' && <MockScreen onStart={(k) => void startMock(k)} />}
           {view === 'progress' && <ProgressScreen />}
 
           <nav

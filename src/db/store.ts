@@ -179,6 +179,38 @@ export async function weakTags(minAnswers = 3, db: TrainerDB = defaultDb): Promi
     .sort((x, y) => x.accuracy - y.accuracy)
 }
 
+export interface StageReadiness {
+  /** Recent accuracy over the last N answers of the stage's item types (0..1), or null if no data. */
+  accuracy: number | null
+  /** Median seconds per item over the same window, or null. */
+  secPerItem: number | null
+  answers: number
+}
+
+/**
+ * Readiness per journey stage: recent accuracy + pace over the stage's item
+ * types (last `window` answers), from the telemetry log.
+ */
+export async function stageReadiness(
+  itemTypes: string[],
+  window = 50,
+  db: TrainerDB = defaultDb,
+): Promise<StageReadiness> {
+  if (itemTypes.length === 0) return { accuracy: null, secPerItem: null, answers: 0 }
+  const reviews = (await db.reviews.toArray())
+    .filter((r) => itemTypes.includes(r.type))
+    .slice(-window)
+  if (reviews.length === 0) return { accuracy: null, secPerItem: null, answers: 0 }
+  const correct = reviews.reduce((a, r) => a + r.correct, 0)
+  const times = reviews.map((r) => r.ms).sort((a, b) => a - b)
+  const median = times[Math.floor(times.length / 2)]
+  return {
+    accuracy: correct / reviews.length,
+    secPerItem: median / 1000,
+    answers: reviews.length,
+  }
+}
+
 export interface StreakInfo {
   todayAnswered: number
   goal: number

@@ -86,14 +86,33 @@ describe('P1 journey — focus drill', () => {
   })
 })
 
-describe('P1 journey — mock test', () => {
-  it('mock defers feedback to the summary', async () => {
+describe('P1 journey — the selection funnel', () => {
+  it('shows every stage with its funnel role and provisional disclaimer', async () => {
     const user = userEvent.setup()
     render(<App />)
+    await user.click(screen.getByRole('button', { name: 'Journey' }))
 
-    await user.click(screen.getByRole('button', { name: 'Mock' }))
-    await user.click(await screen.findByRole('button', { name: /Reasoning gate mock/ }))
-    await screen.findByText('Reasoning gate mock')
+    expect(await screen.findByText('The selection journey')).toBeInTheDocument()
+    // The three funnel roles are visible: gate, ranking score, top-1.5× written.
+    expect(screen.getByText('Gate · pass/fail')).toBeInTheDocument()
+    expect(screen.getByText('Scored · ranks you')).toBeInTheDocument()
+    expect(screen.getByText('Scored · top ~1.5× only')).toBeInTheDocument()
+    expect(screen.getByText(/Notice of Competition \+ Annex II/)).toBeInTheDocument()
+    // Stage names from the model.
+    expect(screen.getByText('Field-related MCQ')).toBeInTheDocument()
+    expect(screen.getByText('Written field test (EUFTE)')).toBeInTheDocument()
+  })
+
+  it('starts a stage mock from its card; feedback is deferred to the summary', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+    await user.click(screen.getByRole('button', { name: 'Journey' }))
+    await screen.findByText('The selection journey')
+
+    // Reasoning stage card: two CTAs, take the Mock.
+    const mockButtons = screen.getAllByRole('button', { name: 'Mock' })
+    await user.click(mockButtons[0])
+    await screen.findByText('Reasoning tests — mock')
 
     // Answer the first item: no reveal in mock mode, straight to the next.
     const optionA = await screen.findByRole('button', { name: /^A/ })
