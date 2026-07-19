@@ -46,19 +46,31 @@ jobs:
         run: npx wrangler@4 pages project create epso-trainer --production-branch=main 2>/dev/null || true
       - name: Deploy
         run: npx wrangler@4 pages deploy dist --project-name=epso-trainer --branch="${{ github.ref_name }}" | tee deploy.log
-      - name: Attach custom domain (soft-fail; needs Zone DNS Edit for auto-DNS)
+      - name: Attach custom domain + DNS (idempotent, soft-fail)
         if: github.ref == 'refs/heads/main'
         run: |
-          set +e
-          API="https://api.cloudflare.com/client/v4"
-          AUTH="Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-          curl -sS -X POST "$API/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/epso-trainer/domains" \
-            -H "$AUTH" -H "Content-Type: application/json" -d '{"name":"epso.dravec.org"}' | head -c 400; echo
-          ZONE=$(curl -sS "$API/zones?name=dravec.org" -H "$AUTH" | grep -o '"id":"[a-f0-9]\{32\}"' | head -1 | cut -d'"' -f4)
-          if [ -n "$ZONE" ]; then
-            curl -sS -X POST "$API/zones/$ZONE/dns_records" -H "$AUTH" -H "Content-Type: application/json" \
-              -d '{"type":"CNAME","name":"epso","content":"epso-trainer.pages.dev","proxied":true}' | head -c 400; echo
-          else
-            echo "no zone access — add the CNAME epso -> epso-trainer.pages.dev manually"
-          fi
-          exit 0
+          node <<'EOF' || true
+          const API = 'https://api.cloudflare.com/client/v4'
+          const H = { Authorization: `Bearer ${process.env.CLOUDFLARE_API_TOKEN}`, 'Content-Type': 'application/json' }
+          const acct = process.env.CLOUDFLARE_ACCOUNT_ID
+          const call = async (url, opts = {}) => (await fetch(url, { headers: H, ...opts })).json()
+          const main = async () => {
+            const dom = await call(`${API}/accounts/${acct}/pages/projects/epso-trainer/domains`, {
+              method: 'POST', body: JSON.stringify({ name: 'epso.dravec.org' }),
+            })
+            // 8000018 = domain already attached — fine.
+            const domOk = dom.success || (dom.errors ?? []).some((e) => e.code === 8000018)
+            console.log('domain attach:', domOk ? 'ok' : JSON.stringify(dom.errors))
+            const zones = await call(`${API}/zones?name=dravec.org`)
+            const zone = zones.result?.[0]?.id
+            if (!zone) { console.log('zone lookup failed (token needs Zone:Read + DNS:Edit):', JSON.stringify(zones.errors ?? zones)); return }
+            const recs = await call(`${API}/zones/${zone}/dns_records?type=CNAME&name=epso.dravec.org`)
+            if (recs.result?.length) { console.log('CNAME already exists'); return }
+            const rec = await call(`${API}/zones/${zone}/dns_records`, {
+              method: 'POST',
+              body: JSON.stringify({ type: 'CNAME', name: 'epso', content: 'epso-trainer.pages.dev', proxied: true }),
+            })
+            console.log('CNAME create:', rec.success ? 'ok' : JSON.stringify(rec.errors))
+          }
+          main().catch((e) => console.log('soft-fail:', e.message))
+          EOF
