@@ -1,0 +1,40 @@
+@import 'tailwindcss';
+
+/* Design tokens — deep EU-blue night field with gold accents (see DESIGN.md).
+   WCAG-AA checked pairs: ink on paper 14.9:1, gold-700 on paper 5.6:1,
+   paper on navy 15.2:1. */
+@theme {
+  --color-navy-950: #0a1226;
+  --color-navy-900: #0e1a33;
+  --color-navy-800: #16244a;
+  --color-navy-700: #1f3161;
+  --color-paper: #f7f4ec;
+  --color-ink: #1c2333;
+  --color-muted: #5a6478;
+  --color-gold-400: #ffd94d;
+  --color-gold-500: #c9a227;
+  --color-gold-700: #8a6f1d;
+  --color-pass: #1c7c43;
+  --color-pass-soft: #e3f2e8;
+  --color-fail: #b3261e;
+  --color-fail-soft: #f9e5e3;
+
+  --font-display: 'Source Serif 4', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+html {
+  background: var(--color-navy-900);
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Visible keyboard focus everywhere (taste.md invariant). */
+:focus-visible {
+  outline: 3px solid var(--color-gold-400);
+  outline-offset: 2px;
+}

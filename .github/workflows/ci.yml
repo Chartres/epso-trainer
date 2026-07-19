@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main, 'claude/**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run validate-data
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+  # Cloudflare Pages: production on main, preview URL on claude/** branches.
+  # Needs repo secrets CLOUDFLARE_API_TOKEN (Account.Pages:Edit) + CLOUDFLARE_ACCOUNT_ID.
+  deploy:
+    needs: test
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: Ensure Pages project exists (idempotent)
+        run: npx wrangler@4 pages project create epso-trainer --production-branch=main 2>/dev/null || true
+      - name: Deploy
+        run: npx wrangler@4 pages deploy dist --project-name=epso-trainer --branch="${{ github.ref_name }}" | tee deploy.log
+      - name: Attach custom domain (soft-fail; needs Zone DNS Edit for auto-DNS)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          set +e
+          API="https://api.cloudflare.com/client/v4"
+          AUTH="Authorization: Bearer $CLOUDFLARE_API_TOKEN"
+          curl -sS -X POST "$API/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/epso-trainer/domains" \
+            -H "$AUTH" -H "Content-Type: application/json" -d '{"name":"epso.dravec.org"}' | head -c 400; echo
+          ZONE=$(curl -sS "$API/zones?name=dravec.org" -H "$AUTH" | grep -o '"id":"[a-f0-9]\{32\}"' | head -1 | cut -d'"' -f4)
+          if [ -n "$ZONE" ]; then
+            curl -sS -X POST "$API/zones/$ZONE/dns_records" -H "$AUTH" -H "Content-Type: application/json" \
+              -d '{"type":"CNAME","name":"epso","content":"epso-trainer.pages.dev","proxied":true}' | head -c 400; echo
+          else
+            echo "no zone access — add the CNAME epso -> epso-trainer.pages.dev manually"
+          fi
+          exit 0

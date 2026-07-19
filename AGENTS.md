@@ -1,0 +1,86 @@
+# AGENTS.md — EPSO Forge (epso-trainer)
+
+The build/test/release contract for this repo. An agent (or the overnight ralph loop) should be
+able to read only this file and ship correctly. Keep every command copy-pasteable and current.
+Taste rules that apply to every flywheel product live in the hub: `flywheel/docs/standards/taste.md`.
+
+> One-liner: Prep trainer for EPSO/AD/430/26 (AD 8, Artificial Intelligence) — reasoning gate +
+> field MCQ with FSRS spaced repetition and Elo-adaptive difficulty. Offline PWA, zero runtime
+> API cost.
+> Stack/template: Vite + React + TS (autoskola-kviz sibling) · Spec: `docs/PRD.md`
+
+## Hard constraints (from the PRD — never violate)
+
+- **Zero paid API tokens at runtime.** The shipped app never calls a metered API. All LLM work
+  happens at authoring time (Claude Code sessions) or on self-hosted local models.
+- Content is data: items live in `/content/bank/*.json`, validated by `npm run validate-data`.
+  The engine is content-agnostic (P3: same engine, swap the pack).
+- No dark patterns: no loss-aversion nags, no leaderboards, no currency. Streak pauses, never shames.
+
+## Build
+```bash
+npm ci
+npm run build
+```
+
+## Test (TDD required; persona-journey test per primary journey)
+```bash
+npm run typecheck
+npm test                # Vitest (engine, store, validators, RTL journeys)
+npm run validate-data   # bank schema + exactly-one-correct + dedupe
+```
+Gate: typecheck · test · build · validate-data must pass (CI: `.github/workflows/ci.yml`).
+Block only on these. Run `scripts/ci-local.sh` before every push — green-local must equal green-CI.
+
+## Run / verify a change in the real app
+`npm run dev` → http://localhost:5173. Primary journeys to eyeball:
+- **Today**: start session → answer (keys 1–4/A–D) → reveal shows rationale + source → rate
+  (Hard/Good/Easy on correct; wrong auto-rates Again) → session review summary → streak/goal moves.
+- **Focus**: pick "Verbal reasoning" or a field domain → isolated drill of that tag only.
+- **Mock**: reasoning or field mock → no feedback until summary → accuracy + time/item reported.
+- **Progress**: domain strength bars, weakest tags, retention setting, telemetry export (JSON).
+
+## Architecture map
+- `src/engine/` — `fsrs.ts` (WHEN: ts-fsrs wrapper), `elo.ts` (WHAT: θ/b + Goldilocks),
+  `session.ts` (due → new → procedural fill; warmup curriculum below 100 answers),
+  `procedural/` (numerical + abstract generators, seeded, guaranteed-correct — no LLM).
+- `src/content/` — item schema/types, validators (shared with `tools/validate.mjs`), bank loader.
+- `src/db/` — Dexie schema + `store.ts` (single write path `recordAnswer`; weak-tag telemetry).
+- `content/bank/` — versioned item packs with provenance. `provenance.reviewed` gates Mock mode.
+- `tools/` — authoring pipeline home (M3: RAG generation via Claude Code; validate.mjs is live).
+
+## Release (the finish line — produces a storefront link)
+- **Web** → Cloudflare Pages, wired in `.github/workflows/ci.yml` via repo secrets
+  `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`: every green push deploys —
+  `main` → production (`epso.dravec.org` / `epso-trainer.pages.dev`), `claude/**` → preview URL
+  (printed in the deploy job log). No dashboard steps.
+- PWA: offline-first by construction (bank is bundled; service worker precaches the shell).
+
+## Content authoring (the flywheel, PRD §6)
+1. Corpus: `node tools/corpus.mjs` fetches the EU legal texts from EUR-Lex and chunks them
+   per article into `content/corpus/chunks/<instrument>/artNNN.txt` (gitignored, regenerable).
+2. Export telemetry from Progress → weak-tag report → weight the next run's cells.
+3. Generation runs as a Claude Code **workflow fan-out**: one generator agent per domain cell,
+   grounded in its chunk files, then **answer-blind round-trip verification** — an independent
+   agent answers each item without seeing the key; mismatch or an ambiguity flag drops the item
+   (recognized technique: round-trip consistency filtering). A second cheap model's blind pass
+   calibrates `difficulty_b` (missed by the small model → harder). Provenance records
+   `verification: round-trip-2x | round-trip-sonnet`.
+4. Gates: `npm run validate-data` (schema, one-correct, Jaccard dupes) and
+   `node tools/dedupe.mjs` (local MiniLM embedding near-dups via transformers.js — no API).
+5. Human spot-check happens IN THE APP: unreviewed items show Approve-for-Mock / Flag-as-wrong
+   on the answer screen. Verdicts persist in Dexie (approved → Mock-eligible on that device,
+   flagged → excluded everywhere) and ride the Progress telemetry export;
+   `node tools/apply-review.mjs <export.json>` writes them into the committed packs
+   (approved → `reviewed: true`, flagged → removed). Then validate, test, commit.
+Regenerate icons after changing `public/favicon.svg`: `node scripts/gen-icons.mjs`.
+
+## Milestones (docs/PRD.md §10)
+M0 scaffold ✅ · M1 SRS + procedural reasoning ✅ · M2 adaptive selection ✅ ·
+M3 FRMCQ bank ≥300 items + authoring pipeline (next) · M4 flywheel loop + EUFTE mode.
+When the real Notice of Competition / Annex II publishes (~Sept 2026), swap the seed taxonomy
+in `src/content/types.ts` and re-run M3.
+
+## Done means
+Green CI · released (URL) · portfolio record updated (stage/gate/links in flywheel repo) ·
+storefront link live · (outward promotion only after Pavol's sign-off).

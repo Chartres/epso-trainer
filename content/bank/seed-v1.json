@@ -1,0 +1,532 @@
+{
+  "pack": "seed-v1",
+  "version": 1,
+  "items": [
+    {
+      "id": "frmcq_aiact_0001",
+      "type": "field_mcq",
+      "domain": "ai_act.risk_tiers",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": -0.3,
+      "stem": "Under the AI Act (Regulation (EU) 2024/1689), which of the following best describes the regulation's overall approach to AI systems?",
+      "options": [
+        { "key": "A", "text": "A sector-specific approach regulating only healthcare and transport AI" },
+        { "key": "B", "text": "A risk-based approach: obligations scale with the level of risk the system poses" },
+        { "key": "C", "text": "A blanket licensing regime requiring prior authorisation for all AI systems" },
+        { "key": "D", "text": "A voluntary code of conduct with no binding obligations" }
+      ],
+      "correct": "B",
+      "rationale": "The AI Act is built on a risk-based pyramid: prohibited practices (unacceptable risk), high-risk systems with strict obligations, limited-risk systems with transparency duties, and minimal-risk systems left largely unregulated. A is wrong because the Act is horizontal, not sectoral; C describes no EU instrument; D ignores that the Act is a binding regulation with penalties.",
+      "source": { "title": "Reg. (EU) 2024/1689, Recitals 26; Art. 5, 6, 50", "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_aiact_0002",
+      "type": "field_mcq",
+      "domain": "ai_act.prohibited_practices",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.4,
+      "stem": "A member state's police force wants to deploy real-time remote biometric identification in public spaces. Under Article 5 of the AI Act, this is:",
+      "options": [
+        { "key": "A", "text": "Always permitted, since law enforcement is exempt from the AI Act" },
+        { "key": "B", "text": "Always prohibited without exception" },
+        { "key": "C", "text": "Prohibited in principle, with narrow exceptions (e.g. targeted search for victims, imminent terrorist threat) subject to prior authorisation" },
+        { "key": "D", "text": "Permitted whenever the system is registered in the EU database" }
+      ],
+      "correct": "C",
+      "rationale": "Art. 5(1)(h) prohibits real-time remote biometric identification in publicly accessible spaces for law enforcement, but Art. 5(2)–(7) carves out narrow exceptions (search for specific victims, prevention of imminent threats, locating suspects of serious crimes) requiring prior judicial or administrative authorisation. A and B miss the exception structure — a classic EPSO trap pair; D confuses the high-risk registration duty with the Art. 5 regime.",
+      "source": { "title": "Reg. (EU) 2024/1689, Art. 5(1)(h), 5(2)-(7)", "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_aiact_0003",
+      "type": "field_mcq",
+      "domain": "ai_act.prohibited_practices",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.6,
+      "stem": "Which of the following practices is prohibited outright by Article 5 of the AI Act?",
+      "options": [
+        { "key": "A", "text": "An AI system inferring emotions of employees in the workplace, except for medical or safety reasons" },
+        { "key": "B", "text": "An AI chatbot that does not disclose it is an AI system" },
+        { "key": "C", "text": "An AI system used for creditworthiness assessment of natural persons" },
+        { "key": "D", "text": "General-purpose AI models trained on more than 10^25 FLOPs" }
+      ],
+      "correct": "A",
+      "rationale": "Emotion inference in workplace and education settings is prohibited by Art. 5(1)(f), with a medical/safety carve-out. B is a transparency obligation (Art. 50), not a prohibition. C is a high-risk use case (Annex III), regulated but permitted. D triggers the systemic-risk GPAI regime (Art. 51), not a ban.",
+      "source": { "title": "Reg. (EU) 2024/1689, Art. 5(1)(f); Annex III; Art. 50-51", "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_aiact_0004",
+      "type": "field_mcq",
+      "domain": "ai_act.high_risk",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.5,
+      "stem": "A provider places a high-risk AI system on the EU market. Which set of obligations applies under Chapter III of the AI Act?",
+      "options": [
+        { "key": "A", "text": "Only post-market monitoring; pre-market requirements apply solely to prohibited systems" },
+        { "key": "B", "text": "Risk management, data governance, technical documentation, logging, transparency, human oversight, accuracy/robustness/cybersecurity, and conformity assessment" },
+        { "key": "C", "text": "Registration with the AI Office and payment of a supervision fee only" },
+        { "key": "D", "text": "A mandatory external audit by a notified body in all cases" }
+      ],
+      "correct": "B",
+      "rationale": "Articles 9–15 set the substantive requirements (risk management system, data and data governance, technical documentation, record-keeping, transparency, human oversight, accuracy/robustness/cybersecurity) and Art. 43 requires conformity assessment before placing on the market. A inverts the logic; C invents a fee; D overstates — for most Annex III systems, internal-control conformity assessment suffices, notified-body involvement is the exception (e.g. remote biometrics).",
+      "source": { "title": "Reg. (EU) 2024/1689, Art. 9-15, 43", "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_aiact_0005",
+      "type": "field_mcq",
+      "domain": "ai_act.high_risk",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.8,
+      "stem": "An AI system listed in Annex III performs a narrow procedural task and does not materially influence the outcome of decision-making. Under Article 6(3) of the AI Act, the provider:",
+      "options": [
+        { "key": "A", "text": "May consider the system not high-risk, but must document the assessment and still register the system in the EU database" },
+        { "key": "B", "text": "Must treat the system as high-risk regardless — Annex III listing is conclusive" },
+        { "key": "C", "text": "Is exempt from the AI Act entirely" },
+        { "key": "D", "text": "Must obtain a derogation decision from the European Commission before deployment" }
+      ],
+      "correct": "A",
+      "rationale": "Art. 6(3) lets providers rebut the high-risk presumption for Annex III systems that do not pose a significant risk (e.g. narrow procedural tasks), but the assessment must be documented and the system registered (Art. 6(4), Art. 49(2)). B states the pre-derogation position; C confuses out-of-scope with derogation; D — no Commission pre-approval exists, though the Commission may review classifications.",
+      "source": { "title": "Reg. (EU) 2024/1689, Art. 6(3)-(4), 49(2)", "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_aiact_0006",
+      "type": "field_mcq",
+      "domain": "ai_act.gpai",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.7,
+      "stem": "Under the AI Act, a general-purpose AI (GPAI) model is presumed to have 'systemic risk' when:",
+      "options": [
+        { "key": "A", "text": "It is deployed by more than 45 million users in the Union" },
+        { "key": "B", "text": "The cumulative compute used for its training exceeds 10^25 floating point operations" },
+        { "key": "C", "text": "It is made available under an open-source licence" },
+        { "key": "D", "text": "It processes special categories of personal data" }
+      ],
+      "correct": "B",
+      "rationale": "Art. 51(2) sets a presumption of high-impact capabilities when training compute exceeds 10^25 FLOPs; the Commission may also designate models by decision. A borrows the DSA's very-large-platform threshold — a deliberate cross-regulation trap; C is the opposite (open-source models get partial exemptions from GPAI obligations, not systemic-risk status); D is a GDPR concept.",
+      "source": { "title": "Reg. (EU) 2024/1689, Art. 51", "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_aiact_0007",
+      "type": "field_mcq",
+      "domain": "ai_act.gpai",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.6,
+      "stem": "Which obligation applies to ALL providers of general-purpose AI models under the AI Act, including those released under free and open-source licences?",
+      "options": [
+        { "key": "A", "text": "Notifying the Commission that the model meets the systemic-risk threshold" },
+        { "key": "B", "text": "Running adversarial testing and reporting serious incidents to the AI Office" },
+        { "key": "C", "text": "Putting in place a policy to comply with Union copyright law and publishing a summary of training content" },
+        { "key": "D", "text": "Appointing an authorised representative established in the Union" }
+      ],
+      "correct": "C",
+      "rationale": "Art. 53(1)(c)-(d) — the copyright-compliance policy and the public training-content summary — apply to all GPAI providers; the open-source exemption in Art. 53(2) covers the documentation duties in 53(1)(a)-(b), not these. A and B apply only to systemic-risk models (Art. 52, 55). D applies to third-country providers, and open-source models are exempt (Art. 54(6)).",
+      "source": { "title": "Reg. (EU) 2024/1689, Art. 53-55", "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_aiact_0008",
+      "type": "field_mcq",
+      "domain": "ai_act.governance",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.5,
+      "stem": "Which body is responsible for supervising and enforcing the AI Act's rules on general-purpose AI models?",
+      "options": [
+        { "key": "A", "text": "The national market surveillance authority of each member state" },
+        { "key": "B", "text": "The AI Office, established within the European Commission" },
+        { "key": "C", "text": "The European Data Protection Board" },
+        { "key": "D", "text": "ENISA, the EU cybersecurity agency" }
+      ],
+      "correct": "B",
+      "rationale": "The AI Office (Commission decision of 24 Jan 2024, anchored in Art. 88 of the AI Act) has exclusive supervision and enforcement powers over GPAI models. National market surveillance authorities handle AI systems at national level — the model/system split is the point being tested. The EDPB supervises data protection; ENISA does cybersecurity certification.",
+      "source": { "title": "Reg. (EU) 2024/1689, Art. 88; Commission Decision C(2024) 390", "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_gdpr_0001",
+      "type": "field_mcq",
+      "domain": "gdpr.intersection",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.4,
+      "stem": "A DG deploys an ML model that produces legally significant decisions about individuals fully automatically. Under Article 22 GDPR, the data subject has the right to:",
+      "options": [
+        { "key": "A", "text": "Not be subject to such a decision, unless an exception applies (contract, Union/member-state law, or explicit consent) with suitable safeguards" },
+        { "key": "B", "text": "A full disclosure of the model's source code and training data" },
+        { "key": "C", "text": "Monetary compensation for every automated decision taken" },
+        { "key": "D", "text": "Nothing — GDPR does not address automated decision-making" }
+      ],
+      "correct": "A",
+      "rationale": "Art. 22(1) GDPR establishes the right not to be subject to solely automated decisions with legal or similarly significant effects; Art. 22(2) lists the three exceptions and Art. 22(3) requires safeguards including human intervention. B overstates — transparency rights (Art. 13-15) cover 'meaningful information about the logic involved', not source code; C invents a remedy; D is flatly wrong.",
+      "source": { "title": "Reg. (EU) 2016/679 (GDPR), Art. 22", "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_gdpr_0002",
+      "type": "field_mcq",
+      "domain": "gdpr.intersection",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.7,
+      "stem": "Training a foundation model on web-scraped data containing personal data of EU residents most directly engages which GDPR question?",
+      "options": [
+        { "key": "A", "text": "Whether a valid legal basis under Article 6 exists — typically a legitimate-interests balancing test" },
+        { "key": "B", "text": "Whether the model qualifies as a data controller" },
+        { "key": "C", "text": "Whether web scraping is exempt because the data was publicly available" },
+        { "key": "D", "text": "Whether pseudonymised data falls outside GDPR entirely" }
+      ],
+      "correct": "A",
+      "rationale": "The central issue (see EDPB Opinion 28/2024 on AI models) is the Art. 6 legal basis, usually Art. 6(1)(f) legitimate interests, assessed via the three-step test. B is a category error — the model is not a legal actor; the developer is the controller. C is a persistent myth: public availability does not remove GDPR protection. D — pseudonymised data is still personal data (Recital 26); only anonymous data escapes.",
+      "source": { "title": "GDPR Art. 6; EDPB Opinion 28/2024", "url": "https://www.edpb.europa.eu/our-work-tools/our-documents/opinion-board-art-64/opinion-282024-certain-data-protection-aspects_en" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_dataact_0001",
+      "type": "field_mcq",
+      "domain": "data_act.core",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.6,
+      "stem": "The Data Act (Regulation (EU) 2023/2854) primarily establishes:",
+      "options": [
+        { "key": "A", "text": "Rules on access to and use of data generated by connected products and related services, plus cloud-switching rights" },
+        { "key": "B", "text": "A prohibition on transferring any industrial data outside the EU" },
+        { "key": "C", "text": "Mandatory open-sourcing of datasets held by private companies" },
+        { "key": "D", "text": "The legal framework for data intermediation services and data altruism" }
+      ],
+      "correct": "A",
+      "rationale": "The Data Act gives users of connected (IoT) products rights to access and share the data they generate, regulates B2B/B2G data sharing terms, and adds cloud provider switching obligations. B overstates its international-transfer safeguards (Art. 32 protects against unlawful third-country access, not all transfers); C is not in any EU act; D describes the Data Governance Act — the classic DA/DGA confusion pair.",
+      "source": { "title": "Reg. (EU) 2023/2854 (Data Act), Art. 3-5, 23-31", "url": "https://eur-lex.europa.eu/eli/reg/2023/2854/oj" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_dga_0001",
+      "type": "field_mcq",
+      "domain": "dga.core",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.6,
+      "stem": "Which mechanism does the Data Governance Act (Regulation (EU) 2022/868) introduce to enable voluntary sharing of data for the common good?",
+      "options": [
+        { "key": "A", "text": "Data altruism organisations, registered and supervised at national level" },
+        { "key": "B", "text": "Compulsory licensing of privately held datasets" },
+        { "key": "C", "text": "A Union-wide data tax funding open datasets" },
+        { "key": "D", "text": "High-value dataset lists that public bodies must publish free of charge" }
+      ],
+      "correct": "A",
+      "rationale": "Chapter IV DGA creates 'data altruism organisations recognised in the Union' — registered entities collecting data that individuals and companies volunteer for general-interest purposes. B and C exist nowhere. D is real EU law but belongs to the Open Data Directive's implementing regulation on high-value datasets, not the DGA — a cross-instrument trap.",
+      "source": { "title": "Reg. (EU) 2022/868 (DGA), Chapter IV", "url": "https://eur-lex.europa.eu/eli/reg/2022/868/oj" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_opendata_0001",
+      "type": "field_mcq",
+      "domain": "open_data.core",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.5,
+      "stem": "Under the Open Data Directive (EU) 2019/1024, 'high-value datasets' held by public sector bodies must be made available:",
+      "options": [
+        { "key": "A", "text": "Free of charge, machine-readable, via APIs and bulk download where relevant" },
+        { "key": "B", "text": "Only to EU-established companies on payment of marginal costs" },
+        { "key": "C", "text": "Exclusively through the EU Open Data Portal" },
+        { "key": "D", "text": "After anonymisation certified by the European Data Protection Supervisor" }
+      ],
+      "correct": "A",
+      "rationale": "Art. 14 ODD and Implementing Regulation 2023/138 require high-value datasets (geospatial, earth observation, meteorological, statistics, companies, mobility) to be free, machine-readable, and accessible via APIs and, where relevant, bulk download. B describes the default charging regime for other documents; C — no exclusivity of channel exists; D invents an EDPS certification role.",
+      "source": { "title": "Dir. (EU) 2019/1024, Art. 13-14; Impl. Reg. (EU) 2023/138", "url": "https://eur-lex.europa.eu/eli/dir/2019/1024/oj" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_ml_0001",
+      "type": "field_mcq",
+      "domain": "ml.foundations",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": -0.5,
+      "stem": "A model performs well on its training data but poorly on held-out data. This is best described as:",
+      "options": [
+        { "key": "A", "text": "Underfitting — the model has too little capacity" },
+        { "key": "B", "text": "Overfitting — the model memorised training patterns that do not generalise" },
+        { "key": "C", "text": "Data leakage — test information contaminated the training set" },
+        { "key": "D", "text": "Covariate shift — the input distribution changed between training and deployment" }
+      ],
+      "correct": "B",
+      "rationale": "Large train/test performance gap with strong training performance is the textbook signature of overfitting. A would show poor performance on both sets. C would inflate test performance, not depress it. D refers to distribution change over time or across environments, not the train/held-out gap on data drawn from the same distribution.",
+      "source": { "title": "Goodfellow, Bengio, Courville — Deep Learning, ch. 5 (generalization)", "url": "https://www.deeplearningbook.org/" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_ml_0002",
+      "type": "field_mcq",
+      "domain": "ml.foundations",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.2,
+      "stem": "For a screening task where missing a true positive is far more costly than a false alarm, which evaluation metric should primarily drive model selection?",
+      "options": [
+        { "key": "A", "text": "Accuracy" },
+        { "key": "B", "text": "Precision" },
+        { "key": "C", "text": "Recall (sensitivity)" },
+        { "key": "D", "text": "Model perplexity" }
+      ],
+      "correct": "C",
+      "rationale": "When false negatives dominate the cost function, recall — the share of actual positives caught — is the primary metric. Accuracy misleads under class imbalance; precision optimises against false positives, the cheaper error here; perplexity is a language-model fit measure, irrelevant to classification screening.",
+      "source": { "title": "scikit-learn user guide — model evaluation (precision, recall)", "url": "https://scikit-learn.org/stable/modules/model_evaluation.html" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_llm_0001",
+      "type": "field_mcq",
+      "domain": "ml.llms",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.1,
+      "stem": "Retrieval-augmented generation (RAG) primarily mitigates which weakness of large language models?",
+      "options": [
+        { "key": "A", "text": "Hallucination and stale knowledge, by grounding answers in retrieved source documents" },
+        { "key": "B", "text": "High inference latency, by caching frequent answers" },
+        { "key": "C", "text": "Prompt injection, by sanitising user inputs" },
+        { "key": "D", "text": "Tokenizer inefficiency on non-English text" }
+      ],
+      "correct": "A",
+      "rationale": "RAG retrieves relevant documents at query time and conditions generation on them, grounding outputs in verifiable, current sources — addressing hallucination and the training-data cutoff. It typically adds latency (against B), does nothing for prompt injection (retrieved content can itself carry injections — against C), and is orthogonal to tokenization (D).",
+      "source": { "title": "Lewis et al. (2020), Retrieval-Augmented Generation for Knowledge-Intensive NLP", "url": "https://arxiv.org/abs/2005.11401" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_llm_0002",
+      "type": "field_mcq",
+      "domain": "ml.llms",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.5,
+      "stem": "In transformer language models, the self-attention mechanism's key computational property is that it:",
+      "options": [
+        { "key": "A", "text": "Processes tokens strictly sequentially, like an RNN" },
+        { "key": "B", "text": "Lets every token attend to every other token in the context, with cost growing quadratically in sequence length" },
+        { "key": "C", "text": "Requires convolution kernels sized to the context window" },
+        { "key": "D", "text": "Eliminates the need for any position information" }
+      ],
+      "correct": "B",
+      "rationale": "Scaled dot-product attention computes pairwise interactions between all token positions — O(n²) in sequence length — enabling parallel training, unlike sequential RNNs (A). C confuses attention with CNNs. D is backwards: because attention is permutation-invariant, transformers need explicit positional encodings.",
+      "source": { "title": "Vaswani et al. (2017), Attention Is All You Need", "url": "https://arxiv.org/abs/1706.03762" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_eval_0001",
+      "type": "field_mcq",
+      "domain": "ml.evaluation",
+      "competency": ["analysis_problem_solving", "quality_under_constraints"],
+      "difficulty_b": 0.6,
+      "stem": "A team reports 98% accuracy on a fraud-detection model where 1% of transactions are fraudulent. The most important critique is:",
+      "options": [
+        { "key": "A", "text": "Accuracy is inflated by class imbalance — a trivial 'always legitimate' model scores 99%; report precision/recall or PR-AUC instead" },
+        { "key": "B", "text": "The model should be retrained with more epochs" },
+        { "key": "C", "text": "98% is below the industry-standard 99.9% threshold" },
+        { "key": "D", "text": "Fraud detection requires unsupervised learning, so accuracy is undefined" }
+      ],
+      "correct": "A",
+      "rationale": "With 1% positives, the majority-class baseline achieves 99% accuracy — so 98% may be worse than doing nothing. Class-imbalance-aware metrics (precision, recall, F1, PR-AUC) are required. B is a non sequitur; C invents a standard; D is false — supervised fraud models are common and accuracy is computable, just misleading.",
+      "source": { "title": "He & Garcia (2009), Learning from Imbalanced Data, IEEE TKDE", "url": "https://doi.org/10.1109/TKDE.2008.239" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_eval_0002",
+      "type": "field_mcq",
+      "domain": "ml.evaluation",
+      "competency": ["analysis_problem_solving", "quality_under_constraints"],
+      "difficulty_b": 0.8,
+      "stem": "During cross-validation of a time-series forecasting model, which practice invalidates the evaluation?",
+      "options": [
+        { "key": "A", "text": "Using expanding-window splits ordered in time" },
+        { "key": "B", "text": "Randomly shuffling observations across folds, letting the model train on data from after the test period" },
+        { "key": "C", "text": "Keeping a final untouched holdout period for the last check" },
+        { "key": "D", "text": "Normalising features using statistics computed on the training window only" }
+      ],
+      "correct": "B",
+      "rationale": "Random K-fold on time series causes temporal leakage: the model effectively sees the future, producing optimistic scores that collapse in production. A and C are correct practice; D is exactly how normalisation should be done (fitting the scaler on all data would itself be leakage).",
+      "source": { "title": "Bergmeir & Benítez (2012), On the use of cross-validation for time series predictor evaluation", "url": "https://doi.org/10.1016/j.ins.2011.12.028" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_robust_0001",
+      "type": "field_mcq",
+      "domain": "ml.risk_robustness",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.7,
+      "stem": "An image classifier's accuracy drops sharply on inputs perturbed with small, human-imperceptible noise crafted to fool it. This vulnerability is called:",
+      "options": [
+        { "key": "A", "text": "Catastrophic forgetting" },
+        { "key": "B", "text": "Adversarial examples" },
+        { "key": "C", "text": "Mode collapse" },
+        { "key": "D", "text": "Label smoothing" }
+      ],
+      "correct": "B",
+      "rationale": "Adversarial examples are inputs with targeted, near-imperceptible perturbations that flip model predictions — a core robustness risk the AI Act's accuracy/robustness/cybersecurity requirement (Art. 15) targets. Catastrophic forgetting concerns sequential training; mode collapse is a GAN failure; label smoothing is a regularisation technique, not a vulnerability.",
+      "source": { "title": "Szegedy et al. (2014), Intriguing properties of neural networks", "url": "https://arxiv.org/abs/1312.6199" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_sec_0001",
+      "type": "field_mcq",
+      "domain": "ml.security",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.6,
+      "stem": "An attacker plants malicious instructions inside a document that an LLM-based assistant later retrieves and follows. This attack is best classified as:",
+      "options": [
+        { "key": "A", "text": "Direct prompt injection" },
+        { "key": "B", "text": "Indirect prompt injection" },
+        { "key": "C", "text": "Model inversion" },
+        { "key": "D", "text": "Data poisoning of the training set" }
+      ],
+      "correct": "B",
+      "rationale": "Indirect prompt injection delivers the adversarial instruction through content the model consumes at inference time (retrieved documents, web pages, emails) rather than the user's own prompt (direct injection, A). Model inversion (C) reconstructs training data from model outputs; data poisoning (D) corrupts the training corpus, not inference-time inputs.",
+      "source": { "title": "OWASP Top 10 for LLM Applications — LLM01 Prompt Injection", "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_mlops_0001",
+      "type": "field_mcq",
+      "domain": "ml.mlops",
+      "competency": ["analysis_problem_solving", "quality_under_constraints"],
+      "difficulty_b": 0.4,
+      "stem": "A deployed model's live accuracy degrades over months although the code is unchanged. The most likely cause and first response is:",
+      "options": [
+        { "key": "A", "text": "Data/concept drift — monitor input and prediction distributions, then retrain on recent data" },
+        { "key": "B", "text": "A memory leak — restart the serving container" },
+        { "key": "C", "text": "Adversarial attack — take the model offline immediately" },
+        { "key": "D", "text": "Floating-point accumulation errors — switch to 64-bit precision" }
+      ],
+      "correct": "A",
+      "rationale": "Gradual degradation with unchanged code is the classic drift signature: the world moves away from the training distribution. The standard MLOps response is distribution monitoring plus scheduled or triggered retraining. B/D would produce crashes or numerical issues, not slow accuracy decay; C is possible but not the most likely explanation for gradual, months-long decline.",
+      "source": { "title": "Sculley et al. (2015), Hidden Technical Debt in Machine Learning Systems", "url": "https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_pubsec_0001",
+      "type": "field_mcq",
+      "domain": "eu_ai.public_sector",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.7,
+      "stem": "A public authority deploying a high-risk AI system (e.g. for social benefit eligibility) has which additional obligation under the AI Act, beyond the general deployer duties?",
+      "options": [
+        { "key": "A", "text": "Carrying out a fundamental rights impact assessment before first use" },
+        { "key": "B", "text": "Publishing the system's full source code" },
+        { "key": "C", "text": "Obtaining unanimous approval from the European Parliament" },
+        { "key": "D", "text": "None — public bodies are exempt from the AI Act" }
+      ],
+      "correct": "A",
+      "rationale": "Art. 27 requires deployers that are public bodies (and certain private providers of public services) to conduct a fundamental rights impact assessment (FRIA) before putting a high-risk system into use, and to notify the market surveillance authority. B is not required by the Act; C is institutional nonsense; D inverts the rule — the public sector is a primary target of the high-risk regime.",
+      "source": { "title": "Reg. (EU) 2024/1689, Art. 27", "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_ethics_0001",
+      "type": "field_mcq",
+      "domain": "eu_ai.ethics",
+      "competency": ["analysis_problem_solving", "digital_field_knowledge"],
+      "difficulty_b": 0.5,
+      "stem": "The High-Level Expert Group on AI's 'Ethics Guidelines for Trustworthy AI' (2019) define trustworthy AI as being:",
+      "options": [
+        { "key": "A", "text": "Lawful, ethical, and robust" },
+        { "key": "B", "text": "Profitable, scalable, and explainable" },
+        { "key": "C", "text": "Open-source, auditable, and carbon-neutral" },
+        { "key": "D", "text": "Certified, insured, and human-supervised" }
+      ],
+      "correct": "A",
+      "rationale": "The HLEG guidelines rest on three components — trustworthy AI should be lawful (complying with law), ethical (respecting principles and values), and robust (technically and socially). The guidelines then derive seven key requirements (human agency, technical robustness, privacy, transparency, diversity/fairness, wellbeing, accountability). The other options mix real vocabulary into sets the HLEG never used.",
+      "source": { "title": "HLEG, Ethics Guidelines for Trustworthy AI (2019)", "url": "https://digital-strategy.ec.europa.eu/en/library/ethics-guidelines-trustworthy-ai" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "frmcq_euinst_0001",
+      "type": "field_mcq",
+      "domain": "eu.institutions",
+      "competency": ["analysis_problem_solving"],
+      "difficulty_b": 0.3,
+      "stem": "The AI Act was adopted as a regulation rather than a directive. The practical consequence is that it:",
+      "options": [
+        { "key": "A", "text": "Applies directly and uniformly in all member states without national transposition" },
+        { "key": "B", "text": "Sets goals that each member state must transpose into national law by its own means" },
+        { "key": "C", "text": "Binds only the member states that voted for it in the Council" },
+        { "key": "D", "text": "Is merely a recommendation without binding force" }
+      ],
+      "correct": "A",
+      "rationale": "Under Art. 288 TFEU a regulation is binding in its entirety and directly applicable in every member state; a directive (B) needs transposition. C describes no EU instrument — adopted acts bind all member states regardless of vote; D describes recommendations and opinions, which are non-binding.",
+      "source": { "title": "TFEU, Art. 288", "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:12016E288" },
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "rv_0001",
+      "type": "reasoning_verbal",
+      "domain": "reasoning.verbal",
+      "competency": ["analysis_problem_solving"],
+      "difficulty_b": 0.0,
+      "stem": "Passage: 'The agency's budget for digital projects increased every year between 2020 and 2024. In 2024, digital projects accounted for 18% of total spending.' Statement: 'The agency's total budget increased between 2020 and 2024.' The statement is:",
+      "options": [
+        { "key": "A", "text": "True" },
+        { "key": "B", "text": "False" },
+        { "key": "C", "text": "Cannot be determined from the passage" }
+      ],
+      "correct": "C",
+      "rationale": "The passage speaks only about the digital-projects budget and its 2024 share. The total budget could have grown, shrunk, or fluctuated while the digital line still rose. EPSO verbal items live on this exact boundary: 'cannot say' is correct whenever the statement needs information the passage does not give — resist importing outside plausibility.",
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "rv_0002",
+      "type": "reasoning_verbal",
+      "domain": "reasoning.verbal",
+      "competency": ["analysis_problem_solving"],
+      "difficulty_b": 0.4,
+      "stem": "Passage: 'All proposals submitted before March were reviewed by two evaluators. Proposal X was reviewed by two evaluators.' Statement: 'Proposal X was submitted before March.' The statement is:",
+      "options": [
+        { "key": "A", "text": "True" },
+        { "key": "B", "text": "False" },
+        { "key": "C", "text": "Cannot be determined from the passage" }
+      ],
+      "correct": "C",
+      "rationale": "This is affirming the consequent: 'before March → two evaluators' does not imply 'two evaluators → before March'. Proposals submitted later may also have received two evaluators — the passage doesn't say. The formal-logic trap (converse error) is a staple of EPSO verbal reasoning.",
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    },
+    {
+      "id": "rv_0003",
+      "type": "reasoning_verbal",
+      "domain": "reasoning.verbal",
+      "competency": ["analysis_problem_solving"],
+      "difficulty_b": 0.3,
+      "stem": "Passage: 'No member of the working group holds shares in companies bidding for the contract. Ms Kovář holds shares in a bidding company.' Statement: 'Ms Kovář is not a member of the working group.' The statement is:",
+      "options": [
+        { "key": "A", "text": "True" },
+        { "key": "B", "text": "False" },
+        { "key": "C", "text": "Cannot be determined from the passage" }
+      ],
+      "correct": "A",
+      "rationale": "Valid modus tollens on a factual categorical: if she were a member, she would not hold the shares; she holds them, so she is not a member. Contrast with rv_0002, where the inference direction was invalid (converse error). Distinguishing valid contrapositive from invalid converse is the core verbal-logic skill.",
+      "provenance": { "generator": "hand", "run": "2026-07-18", "reviewed": true },
+      "version": 1
+    }
+  ]
+}
